@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'node:lts-buster-slim'
+            image 'rcbassil/react-container'
             args '-p 3000:3000'
         }
     }
@@ -12,7 +12,6 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Build'
-                sh 'apt-get update && apt-get install -y git'
                 sh 'cd /home && git clone https://github.com/rcbassil/react && cd react/expensesapp'
                 sh 'npm install'
             }
