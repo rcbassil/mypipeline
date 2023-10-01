@@ -12,6 +12,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Build'
+                sh 'apt-get update && apt-get install -y git'
                 sh 'cd /home && git clone https://github.com/rcbassil/react && cd react/expensesapp'
                 sh 'npm install'
             }
