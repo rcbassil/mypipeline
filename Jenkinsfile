@@ -2,7 +2,7 @@ node {
 	stage("Read Config") {
 		script {
 	
-			def configVal = readYaml file: "config.yml"
+			def configVal = readYaml file: "config.yaml"
 		    echo "configVal: " + configVal
 		
 		}
