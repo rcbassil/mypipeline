@@ -4,7 +4,9 @@ node {
 	
 			def configVal = readYaml file: "config.yaml"
 		    echo "configVal: " + configVal
-		
+    
+            echo configVal['repo']
+            env.REPO = configVal['repo']
 		}
 	}
 }
@@ -23,6 +25,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Build'
+                echo "${REPO}"
                 sh 'rm -rf react && git clone https://github.com/rcbassil/react && cd react/expensesapp && npm install'
             }
         }
