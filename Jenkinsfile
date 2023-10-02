@@ -19,7 +19,7 @@ pipeline {
             steps {
                 echo 'Test'
                 sh 'cp ./scripts/test.sh react/expensesapp/'
-                sh 'cd react/expensesapp && ./test.sh'
+                sh 'cd react/expensesapp && chmod +x test.sh && ./test.sh'
             }
         }
         stage('Deliver') {
@@ -27,9 +27,9 @@ pipeline {
                 echo 'Deliver'
                 sh 'cp ./scripts/deliver.sh react/expensesapp/'
                 sh 'cp ./scripts/kill.sh react/expensesapp/'
-                sh 'cd react/expensesapp && ./deliver.sh'
+                sh 'cd react/expensesapp && chmod +x deliver.sh && ./deliver.sh'
                 input message: 'Finished using the web site? (Click "Proceed" to continue)'
-                sh 'cd react/expensesapp && ./kill.sh'
+                sh 'cd react/expensesapp && chmod +x kill.sh && ./kill.sh'
             }
         }
     }
