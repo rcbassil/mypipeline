@@ -18,15 +18,15 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Test'
-                sh './jenkins/scripts/test.sh'
+                sh 'cd ~/react/expensesapp && ./jenkins/scripts/test.sh'
             }
         }
         stage('Deliver') {
             steps {
                 echo 'Deliver'
-                sh './jenkins/scripts/deliver.sh'
+                sh 'cd ~/react/expensesapp && ./jenkins/scripts/deliver.sh'
                 input message: 'Finished using the web site? (Click "Proceed" to continue)'
-                sh './jenkins/scripts/kill.sh'
+                sh 'cd ~/react/expensesapp && ./jenkins/scripts/kill.sh'
             }
         }
     }
