@@ -18,15 +18,18 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Test'
-                sh 'cd ~/react/expensesapp && ./scripts/test.sh'
+                sh 'cp ./scripts/test.sh ~/react/expensesapp/'
+                sh 'cd ~/react/expensesapp && ./test.sh'
             }
         }
         stage('Deliver') {
             steps {
                 echo 'Deliver'
-                sh 'cd ~/react/expensesapp && ./scripts/deliver.sh'
+                sh 'cp ./scripts/deliver.sh ~/react/expensesapp/'
+                sh 'cp ./scripts/kill.sh ~/react/expensesapp/'
+                sh 'cd ~/react/expensesapp && ./deliver.sh'
                 input message: 'Finished using the web site? (Click "Proceed" to continue)'
-                sh 'cd ~/react/expensesapp && ./scripts/kill.sh'
+                sh 'cd ~/react/expensesapp && ./kill.sh'
             }
         }
     }
