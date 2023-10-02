@@ -1,3 +1,14 @@
+node {
+	stage("Read Config") {
+		script {
+	
+			def configVal = readYaml file: "config.yml"
+		    echo "configVal: " + configVal
+		
+		}
+	}
+}
+
 pipeline {
     agent {
         docker {
