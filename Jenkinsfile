@@ -12,7 +12,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Build'
-                sh 'cd ~/ && git clone https://github.com/rcbassil/react && cd react/expensesapp && npm install'
+                sh 'git clone https://github.com/rcbassil/react && cd react/expensesapp && npm install'
             }
         }
         stage('Test') {
