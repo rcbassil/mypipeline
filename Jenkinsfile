@@ -56,8 +56,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Build'
-                echo "${REPO}"
-                sh 'rm -rf react && git clone https://github.com/rcbassil/react && cd react/expensesapp && npm install'
+                sh "rm -rf react && git clone ${REPO} && cd react/expensesapp && npm install"
             }
         }
         stage('Test') {
