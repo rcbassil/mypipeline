@@ -25,7 +25,7 @@ pipeline {
         stage("Get params"){
             steps{
                 sh "rm -rf myapps && git clone --no-checkout ${REPO} myapps"
-                sh "cd myapps && git ls-tree -d  --name-only ${BRANCH_NAME}"
+                sh "cd myapps && git ls-tree -d --name-only ${env.BRANCH_NAME}"
             }
         }
         stage('Setup parameters') {
