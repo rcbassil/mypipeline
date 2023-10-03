@@ -22,6 +22,14 @@ pipeline {
         CI = 'true'
     }
     stages {
+        stage("Get params"){
+            steps{
+                script{
+                    sh "git clone --no-checkout ${REPO} myapps"
+                    sh "cd myapps && git ls-tree -d  --name-only ${BRANCH_NAME}"
+                }
+            }
+        }
         stage('Setup parameters') {
             steps {
                 script { 
