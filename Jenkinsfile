@@ -14,6 +14,12 @@ node {
 	}
 }
 
+def secrets = [
+  [path: 'kv/dev-creds', engineVersion: 2, secretValues: [
+    [envVar: 'REACT_TOKEN', vaultKey: 'react-pipeline-pass']]],
+]
+def configuration = [vaultUrl: 'http://127.0.0.1:8200',  vaultCredentialId: 'vault-approle', engineVersion: 2]
+
 pipeline {
     agent {
         docker {
@@ -25,6 +31,13 @@ pipeline {
         CI = 'true'
     }
     stages {
+        stage('Vault') {
+        steps {
+          withVault([configuration: configuration, vaultSecrets: secrets]) {
+            sh "echo ${env.REACT_TOKEN}"
+          }
+        }  
+      }
         stage("Get params"){
             steps{
                 sh "rm -rf myapps && git clone --no-checkout ${REPO} myapps"
