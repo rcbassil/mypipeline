@@ -15,10 +15,10 @@ node {
 }
 
 def secrets = [
-  [path: 'kv/dev-creds', engineVersion: 2, secretValues: [
-    [envVar: 'REACT_TOKEN', vaultKey: 'react-pipeline-pass']]],
+  [path: 'kv/dev-creds/react-pipeline-pass', engineVersion: 2, secretValues: [
+    [envVar: 'REACT_TOKEN', vaultKey: 'react-pipeline-token']]],
 ]
-def configuration = [vaultUrl: 'http://127.0.0.1:8200',  vaultCredentialId: 'vault-jenkins-app-role', engineVersion: 2]
+def configuration = [vaultUrl: 'http://192.168.8.148:8200',  vaultCredentialId: 'vault-jenkins-app-role', engineVersion: 2]
 
 pipeline {
     agent {
