@@ -14,10 +14,18 @@ node {
 	}
 }
 
+//def secrets = [
+//  [path: 'kv/dev-creds/react-pipeline-pass', engineVersion: 2, secretValues: [
+//    [envVar: 'REACT_TOKEN', vaultKey: 'react-pipeline-token']]],
+//]
+
+
 def secrets = [
-  [path: 'kv/dev-creds/react-pipeline-pass', engineVersion: 2, secretValues: [
+  [path: 'kv/dev-creds/mysecrets', engineVersion: 2, secretValues: [
+    [envVar: 'GIT_TOKEN', vaultKey: 'git-personal-token'],
     [envVar: 'REACT_TOKEN', vaultKey: 'react-pipeline-token']]],
 ]
+
 def configuration = [vaultUrl: 'http://192.168.8.148:8200',  vaultCredentialId: 'vault-jenkins-app-role', engineVersion: 2]
 
 pipeline {
@@ -34,6 +42,7 @@ pipeline {
         stage('Vault') {
         steps {
           withVault([configuration: configuration, vaultSecrets: secrets]) {
+            sh "echo ${env.GIT_TOKEN}"
             sh "echo ${env.REACT_TOKEN}"
           }
         }  
