@@ -1,4 +1,9 @@
 node {
+
+    checkout scm
+    job = load "building-blocks/jobFuncs.groovy"
+    job.init()
+
 	stage("Read Config") {
 		script {
 	
@@ -30,30 +35,30 @@ def configuration = [vaultUrl: 'http://192.168.8.148:8200',  vaultCredentialId: 
 
 
 properties([
-                        parameters([
-                            choice(
-                                choices: ['ONE', 'TWO'], 
-                                name: 'PARAMETER_01'
-                            ),
-                            booleanParam(
-                                defaultValue: true, 
-                                description: '', 
-                                name: 'BOOLEAN'
-                            ),
-                            text(
-                                defaultValue: '''
-                                this is a multi-line 
-                                string parameter example
-                                ''', 
-                                 name: 'MULTI-LINE-STRING'
-                            ),
-                            string(
-                                defaultValue: 'scriptcrunch', 
-                                name: 'STRING-PARAMETER', 
-                                trim: true
-                            )
-                        ])
-                    ])
+            parameters([
+                choice(
+                    choices: ['ONE', 'TWO', 'THREE'], 
+                    name: 'PARAMETER_01'
+                    ),
+                booleanParam(
+                    defaultValue: true, 
+                    description: '', 
+                    name: 'BOOLEAN'
+                    ),
+                text(
+                    defaultValue: '''
+                    this is a multi-line 
+                    string parameter example
+                    ''', 
+                    name: 'MULTI-LINE-STRING'
+                    ),
+                string(
+                    defaultValue: 'scriptcrunch', 
+                    name: 'STRING-PARAMETER', 
+                    trim: true
+                    )
+            ])
+        ])
 
 pipeline {
     agent {
