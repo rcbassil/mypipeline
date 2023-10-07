@@ -28,35 +28,8 @@ def secrets = [
 
 def configuration = [vaultUrl: 'http://192.168.8.148:8200',  vaultCredentialId: 'vault-jenkins-app-role', engineVersion: 2]
 
-pipeline {
-    agent {
-        docker {
-            image 'rcbassil/react-container'
-            args '-p 3000:3000'
-        }
-    }
-    environment {
-        CI = 'true'
-    }
-    stages {
-        stage('Vault') {
-        steps {
-          withVault([configuration: configuration, vaultSecrets: secrets]) {
-            sh "echo ${env.GIT_TOKEN}"
-            sh "echo ${env.REACT_TOKEN}"
-          }
-        }  
-      }
-        stage("Get params"){
-            steps{
-                sh "rm -rf myapps && git clone --no-checkout ${REPO} myapps"
-                sh "cd myapps && git ls-tree -d --name-only ${BRANCH_NAME}"
-            }
-        }
-        stage('Setup parameters') {
-            steps {
-                script { 
-                    properties([
+
+properties([
                         parameters([
                             choice(
                                 choices: ['ONE', 'TWO'], 
@@ -81,7 +54,30 @@ pipeline {
                             )
                         ])
                     ])
-                }
+
+pipeline {
+    agent {
+        docker {
+            image 'rcbassil/react-container'
+            args '-p 3000:3000'
+        }
+    }
+    environment {
+        CI = 'true'
+    }
+    stages {
+        stage('Vault') {
+        steps {
+          withVault([configuration: configuration, vaultSecrets: secrets]) {
+            sh "echo ${env.GIT_TOKEN}"
+            sh "echo ${env.REACT_TOKEN}"
+          }
+        }  
+      }
+        stage("Get params"){
+            steps{
+                sh "rm -rf myapps && git clone --no-checkout ${REPO} myapps"
+                sh "cd myapps && git ls-tree -d --name-only ${BRANCH_NAME}"
             }
         }
         stage('Build') {
