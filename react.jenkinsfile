@@ -1,5 +1,9 @@
 node {
 
+    def rootDir = pwd()
+    echo "rootDir: " + rootDir
+
+
     checkout scm
     job = load "building-blocks/jobFuncs.groovy"
     job.init()
