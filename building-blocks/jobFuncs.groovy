@@ -15,3 +15,5 @@ def init(){
     //    setBuildTitle("Parameter Initialization")
     //}
 }
+
+return this
