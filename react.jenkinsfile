@@ -2,7 +2,7 @@ node {
 	stage("Read Config") {
 		script {
 	
-			def configVal = readYaml file: "config.yaml"
+			def configVal = readYaml file: "profiles/config-react.yaml"
 		    echo "configVal: " + configVal
     
             echo configVal['repo']
