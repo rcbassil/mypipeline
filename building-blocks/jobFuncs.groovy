@@ -68,7 +68,7 @@ def setBuildTitle(title){
        // }else{
        //     title += " (timer)"
        // }
-    }
+    //}
     currentBuild.displayName = "#${BUILD_NUMBER}: " + title
 }
 
