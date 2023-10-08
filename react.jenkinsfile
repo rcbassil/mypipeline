@@ -1,8 +1,17 @@
 node {
+
+    def rootDir = pwd()
+    echo "rootDir: " + rootDir
+
+
+    checkout scm
+    job = load "building-blocks/jobFuncs.groovy"
+    job.init()
+
 	stage("Read Config") {
 		script {
 	
-			def configVal = readYaml file: "config.yaml"
+			def configVal = readYaml file: "profiles/config-react.yaml"
 		    echo "configVal: " + configVal
     
             echo configVal['repo']
@@ -28,6 +37,13 @@ def secrets = [
 
 def configuration = [vaultUrl: 'http://192.168.8.148:8200',  vaultCredentialId: 'vault-jenkins-app-role', engineVersion: 2]
 
+
+properties([
+            parameters([
+                choice(choices: yamlsList, description: 'Select yaml with deploy configuration.', name: 'DeployYaml')
+            ])
+        ])
+
 pipeline {
     agent {
         docker {
@@ -39,6 +55,14 @@ pipeline {
         CI = 'true'
     }
     stages {
+
+        stage('Read Config')  {
+            //when { expression { !SkipAllStages } }
+            steps{ script {
+                job.ReadConfig()
+            } }
+        }
+
         stage('Vault') {
         steps {
           withVault([configuration: configuration, vaultSecrets: secrets]) {
@@ -51,37 +75,6 @@ pipeline {
             steps{
                 sh "rm -rf myapps && git clone --no-checkout ${REPO} myapps"
                 sh "cd myapps && git ls-tree -d --name-only ${BRANCH_NAME}"
-            }
-        }
-        stage('Setup parameters') {
-            steps {
-                script { 
-                    properties([
-                        parameters([
-                            choice(
-                                choices: ['ONE', 'TWO'], 
-                                name: 'PARAMETER_01'
-                            ),
-                            booleanParam(
-                                defaultValue: true, 
-                                description: '', 
-                                name: 'BOOLEAN'
-                            ),
-                            text(
-                                defaultValue: '''
-                                this is a multi-line 
-                                string parameter example
-                                ''', 
-                                 name: 'MULTI-LINE-STRING'
-                            ),
-                            string(
-                                defaultValue: 'scriptcrunch', 
-                                name: 'STRING-PARAMETER', 
-                                trim: true
-                            )
-                        ])
-                    ])
-                }
             }
         }
         stage('Build') {
