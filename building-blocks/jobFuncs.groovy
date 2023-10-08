@@ -35,7 +35,9 @@ def ReadConfig(){
     printJobConfig()
     // save jobConfig as JSON in the ENV variable,
     // to get access from shell scripts (using common.sh get_job_config function)
-    env.jobConfig = groovy.json.JsonOutput.toJson(jobConfig);        
+    env.jobConfig = groovy.json.JsonOutput.toJson(jobConfig);     
+    echo jobConfig.repo
+    echo jobConfig.branch
     setBuildTitle(env.yamlstouse)
     //storeGitCredentials()
 
