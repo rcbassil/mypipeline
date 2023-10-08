@@ -73,12 +73,14 @@ pipeline {
       }
 
         stage('Vault 2'){
-           withCredentials([string(credentialsId: 'VAULTTOKEN', variable: 'VAULT_TOKEN')]) {
-            sh '''
-              set +x
-              curl -H "X-Vault-Token: $VAULT_TOKEN" -X GET http://192.168.8.148:8200/v1/kv/data/dev-creds/mysecrets
-            '''
-           }
+            steps {
+                withCredentials([string(credentialsId: 'VAULTTOKEN', variable: 'VAULT_TOKEN')]) {
+                    sh '''
+                    set +x
+                    curl -H "X-Vault-Token: $VAULT_TOKEN" -X GET http://192.168.8.148:8200/v1/kv/data/dev-creds/mysecrets
+                    '''
+                }
+            }
         }
 
         stage("Get params"){
