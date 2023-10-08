@@ -78,9 +78,8 @@ pipeline {
                 withCredentials([string(credentialsId: 'VAULTTOKEN', variable: 'VAULT_TOKEN')]) {
                     sh '''
                     set +x
-                    curl -H "X-Vault-Token: $VAULT_TOKEN" -X GET http://192.168.8.148:8200/v1/kv/data/dev-creds/mysecrets > mysecrets.json
-                    MY_SECRETS=$(cat mysecrets.json | jq -r .data.data)
-                    echo $MY_SECRETS
+                    curl -H "X-Vault-Token: $VAULT_TOKEN" -X GET http://192.168.8.148:8200/v1/kv/data/dev-creds/mysecrets
+                    curl -H "X-Vault-Token: $VAULT_TOKEN" -X GET http://192.168.8.148:8200/v1/kv/data/dev-creds/mysecrets/git-personal-token
                     '''
                 }
             }
