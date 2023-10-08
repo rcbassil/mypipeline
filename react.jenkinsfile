@@ -40,27 +40,7 @@ def configuration = [vaultUrl: 'http://192.168.8.148:8200',  vaultCredentialId: 
 
 properties([
             parameters([
-                choice(
-                    choices: ['ONE', 'TWO', 'THREE'], 
-                    name: 'PARAMETER_01'
-                    ),
-                booleanParam(
-                    defaultValue: true, 
-                    description: '', 
-                    name: 'BOOLEAN'
-                    ),
-                text(
-                    defaultValue: '''
-                    this is a multi-line 
-                    string parameter example
-                    ''', 
-                    name: 'MULTI-LINE-STRING'
-                    ),
-                string(
-                    defaultValue: 'scriptcrunch', 
-                    name: 'STRING-PARAMETER', 
-                    trim: true
-                    )
+                choice(choices: yamlsList, description: 'Select yaml with deploy configuration.', name: 'DeployYaml')
             ])
         ])
 
@@ -75,6 +55,14 @@ pipeline {
         CI = 'true'
     }
     stages {
+
+        stage('Read Config')  {
+            //when { expression { !SkipAllStages } }
+            steps{ script {
+                job.ReadConfig()
+            } }
+        }
+
         stage('Vault') {
         steps {
           withVault([configuration: configuration, vaultSecrets: secrets]) {
