@@ -47,6 +47,7 @@ properties([
 pipeline {
     agent {
         docker {
+            alwaysPull true
             image 'rcbassil/myreact-container'
             args '-p 3000:3000'
         }
