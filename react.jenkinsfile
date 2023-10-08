@@ -83,8 +83,9 @@ pipeline {
                     echo $MY_SECRETS
                     '''
                 }
-
-                job.ParseSecrets()
+                script {
+                    job.ParseSecrets()
+                }
             }
         }
 
