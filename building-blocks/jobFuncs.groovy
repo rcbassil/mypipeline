@@ -18,6 +18,10 @@ def init(){
 
 fullYamlPath = [:]
 
+// Holds the deployment configuration data
+jobConfig = [:]
+
+
 
 def ReadConfig(){
     // use DeployYaml parameter value, if it's not default env-variable
