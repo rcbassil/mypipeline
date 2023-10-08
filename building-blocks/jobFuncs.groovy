@@ -1,5 +1,4 @@
 import hudson.console.*
-import groovy.json.JsonSlurper
 
 def init(){
     // Prepopulate the array with the default value, which is used if no YAML selected
@@ -43,17 +42,6 @@ def ReadConfig(){
 
     //addStageToStagesRan("Read Config")
 }
-
-def ParseSecrets(){
-    def jsonSlurper = new JsonSlurper()
-
-    def mySecrets = jsonSlurper.parse(new File('mysecrets.json'))
-
-    println "secrets = $mySecrets"
-
-    println "secrets.git-personal-token = ${mySecrets.git-personal-token}"
-}
-
 
 def addFileToPathMap(fName, fPath){
     String prefix = 'https://github.com/rcbassil/mypipeline/blob/'
