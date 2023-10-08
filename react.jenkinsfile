@@ -65,9 +65,12 @@ pipeline {
 
         stage('Vault') {
         steps {
-          withVault([configuration: configuration, vaultSecrets: secrets]) {
-            sh "echo ${env.GIT_TOKEN}"
-            sh "echo ${env.REACT_TOKEN}"
+          //withVault([configuration: configuration, vaultSecrets: secrets]) {
+          //  sh "echo ${env.GIT_TOKEN}"
+          //  sh "echo ${env.REACT_TOKEN}"
+          //}
+          script {
+            job.VaultSecrets()
           }
         }  
       }

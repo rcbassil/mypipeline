@@ -31,6 +31,13 @@ def secrets = [
 def configuration = [vaultUrl: 'http://192.168.8.148:8200',  vaultCredentialId: 'vault-jenkins-app-role', engineVersion: 2]
 
 
+def VaultSecrets(){
+     withVault([configuration: configuration, vaultSecrets: secrets]) {
+            sh "echo ${env.GIT_TOKEN}"
+            sh "echo ${env.REACT_TOKEN}"
+          }
+}
+
 def ReadConfig(){
     // use DeployYaml parameter value, if it's not default env-variable
     if (params.DeployYaml != "env-variable"){
