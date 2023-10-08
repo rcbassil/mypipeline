@@ -64,6 +64,17 @@ def printJobConfig(){
     println outputStr
 }
 
+String getHyperlink(String url, String text) {
+    return hudson.console.ModelHyperlinkNote.encodeTo(url, text)
+}
+
+def printYamlLink(value){
+    if("${value}".endsWith(".yaml")){
+        value = getHyperlink(fullYamlPath[value], value)
+    }
+    return value
+}
+
 def setBuildTitle(title){
 
     // add userName
