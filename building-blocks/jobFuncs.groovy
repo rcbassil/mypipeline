@@ -16,6 +16,8 @@ def init(){
     //}
 }
 
+fullYamlPath = [:]
+
 
 def ReadConfig(){
     // use DeployYaml parameter value, if it's not default env-variable
