@@ -60,7 +60,8 @@ pipeline {
         stage('Vault 2'){
             steps {
                script {
-                job.GetSecrets("git-personal-token")
+                result = job.GetSecrets("git-personal-token")
+                echo result
              }
             }
         }
