@@ -16,6 +16,15 @@ def init(){
     //}
 }
 
+
+def secrets = [
+  [path: 'kv/dev-creds/mysecrets', engineVersion: 2, secretValues: [
+    [envVar: 'GIT_TOKEN', vaultKey: 'git-personal-token'],
+    [envVar: 'REACT_TOKEN', vaultKey: 'react-pipeline-token']]],
+]
+
+def configuration = [vaultUrl: 'http://192.168.8.148:8200',  vaultCredentialId: 'vault-jenkins-app-role', engineVersion: 2]
+
 fullYamlPath = [:]
 
 // Holds the deployment configuration data
@@ -45,14 +54,6 @@ def ReadConfig(){
 
 
 def GetVaultSecrets(){
-
-def secrets = [
-  [path: 'kv/dev-creds/mysecrets', engineVersion: 2, secretValues: [
-    [envVar: 'GIT_TOKEN', vaultKey: 'git-personal-token'],
-    [envVar: 'REACT_TOKEN', vaultKey: 'react-pipeline-token']]],
-]
-
-def configuration = [vaultUrl: 'http://192.168.8.148:8200',  vaultCredentialId: 'vault-jenkins-app-role', engineVersion: 2]
 
        withVault([configuration: configuration, vaultSecrets: secrets]) {
             sh "echo ${env.GIT_TOKEN}"
