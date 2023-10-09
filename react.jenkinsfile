@@ -60,9 +60,8 @@ pipeline {
         stage('Vault 2'){
             steps {
                script {
-                def myjob = job.GetSecret("git-personal-token")
-                def jobResult = myjob.getResult()
-                echo "Job returned result: ${jobResult}"
+                myjob = job.GetSecret("git-personal-token")
+                sh "echo $myjob"
              }
             }
         }
