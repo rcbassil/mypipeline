@@ -55,14 +55,12 @@ def GetSecrets(String secretId){
                     //'''
                 script{
                     MY_SECRET = sh(script: '''curl -s -H "X-Vault-Token: $VAULT_TOKEN" -X GET http://192.168.8.148:8200/v1/kv/data/dev-creds/mysecrets | jq -r '.data.data." ''' + secretId + '''"' ''', returnStdout: true).trim()
-                    wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[password: MY_SECRET]]]) {  
-                    //withEnv(["SECRET=${MY_SECRET}"]){
-                    //sh 'echo Mask that secret without interpolation: $SECRET'
-                    //sh 'printenv | grep SECRET'
                     echo "MY_SECRET: ${MY_SECRET}"
-                    return "${MY_SECRET}"
-                    //}
+                    wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[password: MY_SECRET]]]) {            
+                    echo "MY_SECRET: ${MY_SECRET}"
+                    
                  }
+                 return MY_SECRET
                 }
                }
                
