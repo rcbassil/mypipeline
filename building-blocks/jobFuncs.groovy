@@ -59,11 +59,11 @@ def GetSecrets(String secretId){
                     echo "MY_SECRET: ${MY_SECRET}"
                     wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[password: MY_SECRET]]]) {            
                      withEnv(["SECRET=${MY_SECRET}"]){    
-                        echo "MY_SECRET: ${SECRET}"
+                        echo 'MY_SECRET: ${SECRET}'
+                        return ${SECRET}
                      }
                     
                  }
-                 return MY_SECRET
                 }
                }
                
