@@ -62,21 +62,21 @@ def GetVaultSecrets(){
 }
 
 def GetSecret(String secretId){
-    withSecretEnv("git-personal-token", "SECRET") {
+    withSecretEnv([[var: 'SECRET', password: 'MY_SECRET']], secretId) {
         echo "Outside SH: SECRET=${SECRET}"
-        //echo "Outside SH: MYSECRET=MY_SECRET"
+        echo "Outside SH: MYSECRET=MY_SECRET"
     }
 }
 
 
-def withSecretEnv(String secretId, String secretVar , Closure closure) {
+def withSecretEnv(List<Map> varAndPasswordList, String secretId, Closure closure) {
 
  withCredentials([string(credentialsId: 'VAULTTOKEN', variable: 'VAULT_TOKEN')]) {
     script{
         echo "${secretId}"
         MY_SECRET = sh(script: '''curl -s -H "X-Vault-Token: $VAULT_TOKEN" -X GET http://192.168.8.148:8200/v1/kv/data/dev-creds/mysecrets | jq -r '.data.data."''' + secretId + '''"' ''', returnStdout: true).trim()
         wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [var: secretVar, password: 'MY_SECRET']]) {
-            withEnv(varAndPasswordList.collect { "${it.var}=${it.password}" }) {
+            withEnv(varAndPasswordList.collect { "${it.var}=${MY_SECRET}" }) {
             closure()
             }
         }
