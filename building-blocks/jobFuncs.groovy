@@ -44,6 +44,9 @@ def ReadConfig(){
 }
 
 def GetSecrets(String secretId){
+
+
+
     withCredentials([string(credentialsId: 'VAULTTOKEN', variable: 'VAULT_TOKEN')]) {
                     //sh '''
                     //set +x
@@ -56,7 +59,7 @@ def GetSecrets(String secretId){
                     withEnv(["SECRET=${MY_SECRET}"]){
                     sh 'echo Mask that secret without interpolation: $SECRET'
                     sh 'printenv | grep SECRET'
-                    return SECRET
+                    return $SECRET
                     }
                  }
                 }
