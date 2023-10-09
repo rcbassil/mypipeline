@@ -59,7 +59,7 @@ def GetSecrets(String secretId){
                     //withEnv(["SECRET=${MY_SECRET}"]){
                     //sh 'echo Mask that secret without interpolation: $SECRET'
                     //sh 'printenv | grep SECRET'
-                    return $MY_SECRET
+                    return MY_SECRET
                     //}
                  }
                 }
