@@ -45,6 +45,9 @@ def ReadConfig(){
 
 
 def GetVaultSecrets(){
+
+def configuration = [vaultUrl: 'http://192.168.8.148:8200',  vaultCredentialId: 'vault-jenkins-app-role', engineVersion: 2]
+
        withVault([configuration: configuration, vaultSecrets: secrets]) {
             sh "echo ${env.GIT_TOKEN}"
             sh "echo ${env.REACT_TOKEN}"
