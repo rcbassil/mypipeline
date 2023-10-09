@@ -70,7 +70,7 @@ def GetSecret(String secretId){
                         echo "Outside SH: SECRET=${SECRET}"
                         echo "Outside SH: MYSECRET=MY_SECRET"
                         env.rSecret = MY_SECRET
-                        echo "rSecret: env.rSecret"
+                        echo "rSecret: ${env.rSecret}"
                         return SECRET
                     }
         }
