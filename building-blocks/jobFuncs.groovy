@@ -44,15 +44,7 @@ def ReadConfig(){
 }
 
 def GetSecrets(String secretId){
-
-
-
     withCredentials([string(credentialsId: 'VAULTTOKEN', variable: 'VAULT_TOKEN')]) {
-                    //sh '''
-                    //set +x
-                    //curl -s -H "X-Vault-Token: $VAULT_TOKEN" -X GET http://192.168.8.148:8200/v1/kv/data/dev-creds/mysecrets
-                    //curl -s -H "X-Vault-Token: $VAULT_TOKEN" -X GET http://192.168.8.148:8200/v1/kv/data/dev-creds/mysecrets | jq -r '.data.data."git-personal-token"'
-                    //'''
                 script{
                     echo "${secretId}"
                     MY_SECRET = sh(script: '''curl -s -H "X-Vault-Token: $VAULT_TOKEN" -X GET http://192.168.8.148:8200/v1/kv/data/dev-creds/mysecrets | jq -r '.data.data."''' + secretId + '''"' ''', returnStdout: true).trim()
@@ -60,13 +52,10 @@ def GetSecrets(String secretId){
                     wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[password: MY_SECRET]]]) {            
                      withEnv(["SECRET=${MY_SECRET}"]){    
                         sh 'echo MY_SECRET: \$SECRET'
-                        env.rSecret = sh(script: 'echo \$SECRET' , returnStdout: true).trim()
                      }
-                    
-                 }
-                }
-               }
-               
+            }
+        }
+    }            
 }
 
 def addFileToPathMap(fName, fPath){
