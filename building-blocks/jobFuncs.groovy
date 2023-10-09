@@ -62,7 +62,7 @@ def GetVaultSecrets(){
 }
 
 def GetSecret(String secretId){
-    withSecretEnv(["git-personal-token", "SECRET"]) {
+    withSecretEnv("git-personal-token", "SECRET") {
         echo "Outside SH: SECRET=${SECRET}"
         //echo "Outside SH: MYSECRET=MY_SECRET"
     }
@@ -71,7 +71,7 @@ def GetSecret(String secretId){
 
 def withSecretEnv(String secretId, String secretVar , Closure closure) {
 
-withCredentials([string(credentialsId: 'VAULTTOKEN', variable: 'VAULT_TOKEN')]) {
+ withCredentials([string(credentialsId: 'VAULTTOKEN', variable: 'VAULT_TOKEN')]) {
     script{
         echo "${secretId}"
         MY_SECRET = sh(script: '''curl -s -H "X-Vault-Token: $VAULT_TOKEN" -X GET http://192.168.8.148:8200/v1/kv/data/dev-creds/mysecrets | jq -r '.data.data."''' + secretId + '''"' ''', returnStdout: true).trim()
