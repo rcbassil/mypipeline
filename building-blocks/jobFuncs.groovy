@@ -64,11 +64,8 @@ def GetVaultSecrets(){
 def GetSecret(String secretId){
     //vSecret = GetSecretFromVault(secretId)
     withSecretEnv([[var: 'SECRET', password: 'GetSecretFromVault(secretId)']]) {
-        sh '''#!/bin/bash -eu
-    echo "with env use:      ${SECRET}"
-    '''
-    sleep 1
         echo "Outside SH: SECRET=${SECRET}"
+        echo "Outside SH: SECRET=$SECRET"
         //echo "Outside SH: vSecret"
     }
 }
