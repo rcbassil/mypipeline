@@ -57,13 +57,13 @@ pipeline {
           }
       }
 
-//        stage('Vault 2'){
-//            steps {
-//               script {
-//                job.GetSecret("git-personal-token")
-//            }
-//            }
-//        }
+        stage('Vault 2'){
+            steps {
+               script {
+                job.GetSecret("git-personal-token")
+            }
+            }
+        }
 
         stage("Get params"){
             steps{
