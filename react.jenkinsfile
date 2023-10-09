@@ -61,7 +61,6 @@ pipeline {
             steps {
                script {
                 result = job.GetSecrets("git-personal-token")
-                sh "echo ${env.MYSECRET}"
              }
             }
         }
