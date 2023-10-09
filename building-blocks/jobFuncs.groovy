@@ -76,7 +76,7 @@ def withSecretEnv(List<Map> varAndPasswordList, String secretId, Closure closure
         echo "${secretId}"
         wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: varAndPasswordList]) {
             vaultSecret = sh(script: '''curl -s -H "X-Vault-Token: $VAULT_TOKEN" -X GET http://192.168.8.148:8200/v1/kv/data/dev-creds/mysecrets | jq -r '.data.data."''' + secretId + '''"' ''', returnStdout: true).trim()
-            withEnv(varAndPasswordList.collect { "${it.var}=${it.password}" }) {
+            withEnv(varAndPasswordList.collect { "${it.var}=${vaultSecret}" }) {
             closure()
             }
         }
