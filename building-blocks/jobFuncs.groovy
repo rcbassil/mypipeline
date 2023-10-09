@@ -43,6 +43,25 @@ def ReadConfig(){
     //addStageToStagesRan("Read Config")
 }
 
+def GetSecrets(){
+    withCredentials([string(credentialsId: 'VAULTTOKEN', variable: 'VAULT_TOKEN')]) {
+                    sh '''
+                    set +x
+                    curl -s -H "X-Vault-Token: $VAULT_TOKEN" -X GET http://192.168.8.148:8200/v1/kv/data/dev-creds/mysecrets
+                    curl -s -H "X-Vault-Token: $VAULT_TOKEN" -X GET http://192.168.8.148:8200/v1/kv/data/dev-creds/mysecrets | jq -r '.data.data."git-personal-token"'
+                    '''
+                script{
+                    MY_SECRET = sh(script: '''curl -s -H "X-Vault-Token: $VAULT_TOKEN" -X GET http://192.168.8.148:8200/v1/kv/data/dev-creds/mysecrets | jq -r '.data.data."git-personal-token"' ''', returnStdout: true).trim()
+                    wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[password: MY_SECRET]]]) {  
+                    withEnv(["SECRET=${MY_SECRET}"]){
+                    sh 'echo Mask that secret without interpolation: $SECRET'
+                    sh 'printenv | grep SECRET'
+                    }
+                 }
+                }
+               }
+}
+
 def addFileToPathMap(fName, fPath){
     String prefix = 'https://github.com/rcbassil/mypipeline/blob/'
     String branch = scm.branches[0].name
