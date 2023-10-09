@@ -50,10 +50,6 @@ def ReadConfig(){
     //storeGitCredentials()
 
     //addStageToStagesRan("Read Config")
-
-
-    result = GetSecret("git-personal-token")
-    echo result
 }
 
 
@@ -66,24 +62,24 @@ def GetVaultSecrets(){
 }
 
 def GetSecret(String secretId){
-    withCredentials([string(credentialsId: 'VAULTTOKEN', variable: 'VAULT_TOKEN')]) {
-                script{
-                    echo "${secretId}"
-                    MY_SECRET = sh(script: '''curl -s -H "X-Vault-Token: $VAULT_TOKEN" -X GET http://192.168.8.148:8200/v1/kv/data/dev-creds/mysecrets | jq -r '.data.data."''' + secretId + '''"' ''', returnStdout: true).trim()
-                    withSecretEnv([[var: 'SECRET', password: 'MY_SECRET']]) {
-                        echo "Outside SH: SECRET=${SECRET}"
-                        echo "Outside SH: MYSECRET=MY_SECRET"
-                        return MY_SECRET
-                    }
-        }
-    }            
+    withSecretEnv(["git-personal-token", "SECRET"]) {
+        echo "Outside SH: SECRET=${SECRET}"
+        //echo "Outside SH: MYSECRET=MY_SECRET"
+    }
 }
 
 
-def withSecretEnv(List<Map> varAndPasswordList, Closure closure) {
-  wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: varAndPasswordList]) {
-    withEnv(varAndPasswordList.collect { "${it.var}=${it.password}" }) {
-      closure()
+def withSecretEnv(String secretId, String secretVar , Closure closure) {
+
+withCredentials([string(credentialsId: 'VAULTTOKEN', variable: 'VAULT_TOKEN')]) {
+    script{
+        echo "${secretId}"
+        MY_SECRET = sh(script: '''curl -s -H "X-Vault-Token: $VAULT_TOKEN" -X GET http://192.168.8.148:8200/v1/kv/data/dev-creds/mysecrets | jq -r '.data.data."''' + secretId + '''"' ''', returnStdout: true).trim()
+        wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [var: secretVar, password: 'MY_SECRET']]) {
+            withEnv(varAndPasswordList.collect { "${it.var}=${it.password}" }) {
+            closure()
+            }
+        }
     }
   }
 }
