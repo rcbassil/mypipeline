@@ -43,6 +43,14 @@ def ReadConfig(){
     //addStageToStagesRan("Read Config")
 }
 
+
+def GetVaultSecrets(){
+       withVault([configuration: configuration, vaultSecrets: secrets]) {
+            sh "echo ${env.GIT_TOKEN}"
+            sh "echo ${env.REACT_TOKEN}"
+       }
+}
+
 def GetSecrets(String secretId){
     withCredentials([string(credentialsId: 'VAULTTOKEN', variable: 'VAULT_TOKEN')]) {
                 script{
