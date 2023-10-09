@@ -50,6 +50,10 @@ def ReadConfig(){
     //storeGitCredentials()
 
     //addStageToStagesRan("Read Config")
+
+
+    result = GetSecret("git-personal-token")
+    echo result
 }
 
 
@@ -69,8 +73,6 @@ def GetSecret(String secretId){
                     withSecretEnv([[var: 'SECRET', password: 'MY_SECRET']]) {
                         echo "Outside SH: SECRET=${SECRET}"
                         echo "Outside SH: MYSECRET=MY_SECRET"
-                        env.rSecret = MY_SECRET
-                        echo "rSecret: ${env.rSecret}"
                         return SECRET
                     }
         }
