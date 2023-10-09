@@ -63,7 +63,8 @@ def GetVaultSecrets(){
 
 def GetSecret(String secretId){
     String vSecret = GetSecretFromVault(secretId)
-    withSecretEnv([[var: 'SECRET', password: vSecret]]) {
+    def changedString = vSecret.tr(/"'/,/'"/)
+    withSecretEnv([[var: 'SECRET', password: changedString]]) {
         echo "Outside SH: SECRET=${SECRET}"
     }
 }
