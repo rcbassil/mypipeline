@@ -61,7 +61,7 @@ pipeline {
             steps {
                script {
                 def myjob = job.GetSecret("git-personal-token")
-                def jobResult = jobBuild.getResult()
+                def jobResult = myjob.getResult()
                 echo "Job returned result: ${jobResult}"
              }
             }
