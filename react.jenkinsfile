@@ -70,11 +70,11 @@ pipeline {
         //    sh "echo ${env.GIT_TOKEN}"
         //    sh "echo ${env.REACT_TOKEN}"
         //  }
-          //steps{
-           // script{
-            //    job.GetVaultSecrets()
-           // }
-          //}
+          steps{
+            script{
+                job.GetVaultSecrets()
+            }
+          }
         //}  
       }
 
