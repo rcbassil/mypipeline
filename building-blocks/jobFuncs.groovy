@@ -61,7 +61,7 @@ def GetVaultSecrets(){
        }
 }
 
-def GetSecrets(String secretId){
+def GetSecret(String secretId){
     withCredentials([string(credentialsId: 'VAULTTOKEN', variable: 'VAULT_TOKEN')]) {
                 script{
                     echo "${secretId}"
