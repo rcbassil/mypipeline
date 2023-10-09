@@ -69,6 +69,7 @@ def GetSecrets(String secretId){
                     withSecretEnv([[var: 'SECRET', password: 'MY_SECRET']]) {
                         echo "Outside SH: SECRET=${SECRET}"
                         env.MYSECRET = SECRET
+                        return SECRET
                     }
         }
     }            
