@@ -60,7 +60,7 @@ def GetSecrets(String secretId){
                     //sh 'echo Mask that secret without interpolation: $SECRET'
                     //sh 'printenv | grep SECRET'
                     return $MY_SECRET
-                    }
+                    //}
                  }
                 }
                }
