@@ -68,7 +68,7 @@ def GetSecrets(String secretId){
                     MY_SECRET = sh(script: '''curl -s -H "X-Vault-Token: $VAULT_TOKEN" -X GET http://192.168.8.148:8200/v1/kv/data/dev-creds/mysecrets | jq -r '.data.data."''' + secretId + '''"' ''', returnStdout: true).trim()
                     withSecretEnv([[var: 'SECRET', password: 'MY_SECRET']]) {
                         echo "Outside SH: SECRET=${SECRET}"
-                        env.MYSECRET = ${SECRET}
+                        env.MYSECRET = SECRET
                     }
         }
     }            
