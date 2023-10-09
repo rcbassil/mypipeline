@@ -60,7 +60,8 @@ def GetSecrets(String secretId){
                     wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[password: MY_SECRET]]]) {            
                      withEnv(["SECRET=${MY_SECRET}"]){    
                         sh 'echo MY_SECRET: \$SECRET'
-                        return ${SECRET}
+                        rSecret = sh(script: 'echo \$SECRET' , returnStdout: true).trim()
+                        return rSecret
                      }
                     
                  }
