@@ -62,28 +62,31 @@ def GetVaultSecrets(){
 }
 
 def GetSecret(String secretId){
-    withSecretEnv([[var: 'SECRET', password: 'MY_SECRET']], secretId) {
+    vSecret = GetSecretFromVault(secretId)
+    withSecretEnv([[var: 'SECRET', password: 'vSecret']]) {
         echo "Outside SH: SECRET=${SECRET}"
-        echo "$SECRET"
-        echo "SECRET"
-        echo '$SECRET'
+        echo "Outside SH: vSecret=$vSecret"
+        echo "Outside SH: vSecret=${vSecret}"
     }
 }
 
 
-def withSecretEnv(List<Map> varAndPasswordList, String secretId, Closure closure) {
-
- withCredentials([string(credentialsId: 'VAULTTOKEN', variable: 'VAULT_TOKEN')]) {
-    script{
-        echo "${secretId}"
-        wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: varAndPasswordList]) {
-            vaultSecret = sh(script: '''curl -s -H "X-Vault-Token: $VAULT_TOKEN" -X GET http://192.168.8.148:8200/v1/kv/data/dev-creds/mysecrets | jq -r '.data.data."''' + secretId + '''"' ''', returnStdout: true).trim()
-            withEnv(varAndPasswordList.collect { "${it.var}=${vaultSecret}" }) {
-            closure()
-            }
-        }
+def withSecretEnv(List<Map> varAndPasswordList, Closure closure) {
+  wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: varAndPasswordList]) {
+    withEnv(varAndPasswordList.collect { "${it.var}=${it.password}" }) {
+      closure()
     }
   }
+}
+
+def GetSecretFromVault(String secretId) {
+    withCredentials([string(credentialsId: 'VAULTTOKEN', variable: 'VAULT_TOKEN')]) {
+        script{
+            echo "${secretId}"
+            vaultSecret = sh(script: '''curl -s -H "X-Vault-Token: $VAULT_TOKEN" -X GET http://192.168.8.148:8200/v1/kv/data/dev-creds/mysecrets | jq -r '.data.data."''' + secretId + '''"' ''', returnStdout: true).trim()
+            return vaultSecret
+        }
+    }
 }
 
 def addFileToPathMap(fName, fPath){
