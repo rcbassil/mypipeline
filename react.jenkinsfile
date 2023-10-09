@@ -39,12 +39,6 @@ pipeline {
     }
     environment {
         CI = 'true'
-        withCredentials([string(credentialsId: 'VAULTTOKEN', variable: 'VAULT_TOKEN')]) {
-        script{
-            secretId = "git-personal-token"
-            vaultSecret = sh(script: '''curl -s -H "X-Vault-Token: $VAULT_TOKEN" -X GET http://192.168.8.148:8200/v1/kv/data/dev-creds/mysecrets | jq -r '.data.data."''' + secretId + '''"' ''', returnStdout: true).trim()
-            sh "echo $vaultSecret"
-        }
     }
     }
     stages {
@@ -64,13 +58,13 @@ pipeline {
           }
       }
 
-        stage('Vault 2'){
-            steps {
-               script {
-                job.GetSecret("git-personal-token")
-            }
-            }
-        }
+//        stage('Vault 2'){
+//            steps {
+//               script {
+//                job.GetSecret("git-personal-token")
+//             }
+//            }
+//        }
 
         stage("Get params"){
             steps{
