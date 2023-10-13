@@ -52,7 +52,7 @@ pipeline {
         stage("example") { 
             steps{
                 script {
-                  def jobBuild = build job: 'example-job.jenkinsfile', propagate: false
+                  def jobBuild = build job: 'example-job', propagate: false
 
                     def jobResult = jobBuild.getResult()
 

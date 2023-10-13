@@ -1,0 +1,37 @@
+node {
+
+    def rootDir = pwd()
+    echo "rootDir: " + rootDir
+
+
+    checkout scm
+    job = load "building-blocks/jobFuncs.groovy"
+    job.init()
+
+	stage("Read Config") {
+		script {
+	
+			def configVal = readYaml file: "profiles/config-react.yaml"
+		    echo "configVal: " + configVal
+    
+            echo configVal['repo']
+            env.REPO = configVal['repo']
+
+            echo configVal['branch']
+            env.BRANCH_NAME = configVal['branch']
+		}
+	}
+}
+
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Example')  {
+            steps { 
+                script { echo "EXAMPLE" }
+            }
+        }
+    }
+}
