@@ -167,7 +167,7 @@ pipeline {
         unstable {
              script {
                 //job.CreateJIRADefect(jobName, buildURL, failedStage, unstableStage)
-                echo $unstableStage
+                echo unstableStage
                 echo "UNSTABLE TEST"
             }
         }
