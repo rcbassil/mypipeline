@@ -51,7 +51,11 @@ pipeline {
 
         stage("example") { 
             steps{
-             echo build("example-job").result 
+             def jobBuild = build job: 'example-job', propagate: false
+
+                    def jobResult = jobBuild.getResult()
+
+                    echo "Build of 'example-job' returned result: ${jobResult}"
             }
         }
 
