@@ -130,6 +130,9 @@ pipeline {
                 echo 'Test'
                 sh 'cp ./scripts/test.sh react/expensesapp/'
                 sh 'cd react/expensesapp && chmod +x test.sh && ./test.sh'
+                script {
+                  unstable(message: "${STAGE_NAME} is unstable")
+                }
             }
             post {
                 unstable { script {
@@ -164,6 +167,7 @@ pipeline {
         unstable {
              script {
                 //job.CreateJIRADefect(jobName, buildURL, failedStage, unstableStage)
+                echo $unstableStage
                 echo "UNSTABLE TEST"
             }
         }
