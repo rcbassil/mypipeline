@@ -49,6 +49,12 @@ pipeline {
             } }
         }
 
+        stage("example") { 
+            steps{
+             echo build("example-job").result 
+            }
+        }
+
         stage('Vault') {
           steps{
             script{
