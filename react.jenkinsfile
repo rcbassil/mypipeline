@@ -47,6 +47,14 @@ pipeline {
             steps{ script {
                 job.ReadConfig()
             } }
+            post {
+                unstable { script {
+                    unstableStage = env.STAGE_NAME
+                } }
+                failure { script {
+                    failedStage = env.STAGE_NAME
+                } }
+            }       
         }
 
         stage("example") { 
@@ -55,6 +63,14 @@ pipeline {
                   unstable(message: "${STAGE_NAME} is unstable")
                 }
             }
+            post {
+                unstable { script {
+                    unstableStage = env.STAGE_NAME
+                } }
+                failure { script {
+                    failedStage = env.STAGE_NAME
+                } }
+            }       
         }
 
         stage('Vault') {
@@ -63,6 +79,14 @@ pipeline {
                 job.GetVaultSecrets()
             }
           }
+          post {
+                unstable { script {
+                    unstableStage = env.STAGE_NAME
+                } }
+                failure { script {
+                    failedStage = env.STAGE_NAME
+                } }
+            }       
       }
 
 //        stage('Vault 2'){
@@ -78,12 +102,28 @@ pipeline {
                 sh "rm -rf myapps && git clone --no-checkout ${REPO} myapps"
                 sh "cd myapps && git ls-tree -d --name-only ${BRANCH_NAME}"
             }
+            post {
+                unstable { script {
+                    unstableStage = env.STAGE_NAME
+                } }
+                failure { script {
+                    failedStage = env.STAGE_NAME
+                } }
+            }       
         }
         stage('Build') {
             steps {
                 echo 'Build'
                 sh "rm -rf react && git clone ${REPO} && cd react/expensesapp && npm install"
             }
+            post {
+                unstable { script {
+                    unstableStage = env.STAGE_NAME
+                } }
+                failure { script {
+                    failedStage = env.STAGE_NAME
+                } }
+            }       
         }
         stage('Test') {
             steps {
@@ -91,6 +131,14 @@ pipeline {
                 sh 'cp ./scripts/test.sh react/expensesapp/'
                 sh 'cd react/expensesapp && chmod +x test.sh && ./test.sh'
             }
+            post {
+                unstable { script {
+                    unstableStage = env.STAGE_NAME
+                } }
+                failure { script {
+                    failedStage = env.STAGE_NAME
+                } }
+            }       
         }
         stage('Deliver') {
             steps {
@@ -101,6 +149,31 @@ pipeline {
                 input message: 'Finished using the web site? (Click "Proceed" to continue)'
                 sh 'cd react/expensesapp && chmod +x kill.sh && ./kill.sh'
             }
+            post {
+                unstable { script {
+                    unstableStage = env.STAGE_NAME
+                } }
+                failure { script {
+                    failedStage = env.STAGE_NAME
+                } }
+            }       
         }
+    }
+
+     post {
+        unstable {
+             script {
+                //job.CreateJIRADefect(jobName, buildURL, failedStage, unstableStage)
+                echo "UNSTABLE TEST"
+            }
+        }
+        failure {
+             script {
+                //job.CreateJIRADefect(jobName, buildURL, failedStage, unstableStage)
+            }
+        }
+        always { script {
+           
+        } }
     }
 }
