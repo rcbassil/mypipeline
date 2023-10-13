@@ -52,7 +52,7 @@ pipeline {
         stage("example") { 
             steps{
                 script {
-                  def jobBuild = build job: 'example-job', propagate: false
+                  def jobBuild = build job: 'building-blocks/example-job/main', propagate: false
 
                     def jobResult = jobBuild.getResult()
 
