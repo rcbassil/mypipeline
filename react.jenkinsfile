@@ -52,11 +52,7 @@ pipeline {
         stage("example") { 
             steps{
                 script {
-                  def jobBuild = build job: 'building-blocks/example-job.jenkinsfile', propagate: false
-
-                    def jobResult = jobBuild.getResult()
-
-                    echo "Build of 'example-job' returned result: ${jobResult}"
+                  unstable(message: "${STAGE_NAME} is unstable")
                 }
             }
         }
