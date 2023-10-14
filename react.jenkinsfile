@@ -56,6 +56,7 @@ pipeline {
                         sh "currl"
                     } catch (e) {
                         unstable(message: "${STAGE_NAME} is unstable" + e.toString())
+                        throw e
                     }
                 }
             }
