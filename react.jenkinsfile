@@ -52,7 +52,11 @@ pipeline {
         stage("example") { 
             steps{
                 script {
-                  unstable(message: "${STAGE_NAME} is unstable")
+                    try{
+                        sh "currl"
+                    } catch (e) {
+                        unstable(message: "${STAGE_NAME} is unstable" + e.toString())
+                    }
                 }
             }
         }
@@ -110,9 +114,7 @@ pipeline {
      post {
         unstable {
              script {
-                //job.CreateJIRADefect(jobName, buildURL, failedStage, unstableStage)
                 echo unstableStage
-                echo "UNSTABLE TEST"
             }
         }
     }
