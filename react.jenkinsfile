@@ -115,7 +115,7 @@ pipeline {
      post {
         unstable {
              script {
-                echo unstableStage
+                echo "Test"
             }
         }
     }
