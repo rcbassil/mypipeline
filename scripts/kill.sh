@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-source trycatch.sh
+source scripts/trycatch.sh
 
 try
 (
