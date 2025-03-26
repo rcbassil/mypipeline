@@ -24,7 +24,7 @@ def init(){
 fullYamlPath = [:]
 
 // Holds the deployment configuration data
-def jobConfig = [:]
+jobConfig = [:]
 
 
 
