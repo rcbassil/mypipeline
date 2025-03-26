@@ -16,15 +16,15 @@ def init(){
     //    setBuildTitle("Parameter Initialization")
     //}
 
-    LinkedHashMap fullYamlPath = [:]
-    LinkedHashMap jobConfig = [:]
+    //LinkedHashMap fullYamlPath = [:]
+    //LinkedHashMap jobConfig = [:]
 
 }
 
-//fullYamlPath = [:]
+def fullYamlPath = [:]
 
 // Holds the deployment configuration data
-//jobConfig = [:]
+def jobConfig = [:]
 
 
 
