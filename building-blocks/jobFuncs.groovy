@@ -5,7 +5,7 @@ def init(){
     ArrayList yamlsList = ['env-variable']
     echo "Test"
     dir('profiles') {
-        FileWrapper[] files = findFiles(glob: '*.yaml')
+        files = findFiles(glob: '*.yaml')
     }
     files.each { file ->
         yamlsList.add(file.name)
