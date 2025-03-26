@@ -12,13 +12,13 @@ node {
 		script {
 	
 			def configVal = readYaml file: "profiles/config-react.yaml"
-		    echo "configVal: " + configVal
+		        echo "configVal: " + configVal
     
-            echo configVal['repo']
-            env.REPO = configVal['repo']
+                        echo configVal['repo']
+                        env.REPO = configVal['repo']
 
-            echo configVal['branch']
-            env.BRANCH_NAME = configVal['branch']
+                        echo configVal['branch']
+                        env.BRANCH_NAME = configVal['branch']
 		}
 	}
 }
