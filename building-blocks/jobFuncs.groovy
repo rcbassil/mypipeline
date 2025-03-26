@@ -14,12 +14,15 @@ def init(){
     //if(SkipAllStages) {
     //    setBuildTitle("Parameter Initialization")
     //}
+
+    fullYamlPath = [:]
+    jobConfig = [:]
 }
 
-fullYamlPath = [:]
+//fullYamlPath = [:]
 
 // Holds the deployment configuration data
-jobConfig = [:]
+//jobConfig = [:]
 
 
 
