@@ -3,9 +3,10 @@ import hudson.console.*
 def init(){
     // Prepopulate the array with the default value, which is used if no YAML selected
     ArrayList yamlsList = ['env-variable']
+    def files
     echo "Test"
     dir('profiles') {
-       def files = findFiles(glob: '*.yaml')
+       files = findFiles(glob: '*.yaml')
     }
     files.each { file ->
         yamlsList.add(file.name)
