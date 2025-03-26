@@ -2,7 +2,7 @@ import hudson.console.*
 
 def init(){
     // Prepopulate the array with the default value, which is used if no YAML selected
-    def yamlsList = ['env-variable']
+    yamlsList = ['env-variable']
     def files
     echo "Test"
     dir('profiles') {
