@@ -5,7 +5,7 @@ def init(){
     ArrayList yamlsList = ['env-variable']
     echo "Test"
     dir('profiles') {
-        files = findFiles(glob: '*.yaml')
+        FileWrapper[] files = findFiles(glob: '*.yaml')
     }
     files.each { file ->
         yamlsList.add(file.name)
@@ -15,8 +15,8 @@ def init(){
     //    setBuildTitle("Parameter Initialization")
     //}
 
-    fullYamlPath = [:]
-    jobConfig = [:]
+    LinkedHashMap fullYamlPath = [:]
+    LinkedHashMap jobConfig = [:]
 
 }
 
