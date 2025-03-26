@@ -2,7 +2,7 @@ import hudson.console.*
 
 def init(){
     // Prepopulate the array with the default value, which is used if no YAML selected
-    yamlsList = ['env-variable']
+    ArrayList yamlsList = ['env-variable']
     echo "Test"
     dir('profiles') {
         files = findFiles(glob: '*.yaml')
@@ -15,12 +15,15 @@ def init(){
     //    setBuildTitle("Parameter Initialization")
     //}
 
+    fullYamlPath = [:]
+    jobConfig = [:]
+
 }
 
-fullYamlPath = [:]
+//fullYamlPath = [:]
 
 // Holds the deployment configuration data
-jobConfig = [:]
+//jobConfig = [:]
 
 
 
