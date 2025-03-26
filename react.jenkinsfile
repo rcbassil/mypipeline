@@ -5,7 +5,7 @@ node {
 
 
     checkout scm
-    job = load "building-blocks/jobFuncs.groovy"
+    def job = load "building-blocks/jobFuncs.groovy"
     job.init()
 
 	stage("Read Config") {
